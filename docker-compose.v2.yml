@@ -15,7 +15,7 @@ version: "2"
 
 services:
   sm:
-    command: ["manage", "-H", "tcp://0.0.0.0:3376", "nodes://sn1:2375,sn2:2375,sn3:2375"]
+    command: ["manage", "-H", "tcp://0.0.0.0:2375", "nodes://sn1:2375,sn2:2375,sn3:2375"]
     image: swarm
     links:
     - sn1:sn1
@@ -23,7 +23,7 @@ services:
     - sn3:sn3
     network_mode: bridge
     ports:
-    - "3375:3376"
+    - "3375:2375"
 
   sn1:
     image: docker:dind
@@ -66,10 +66,8 @@ services:
 
   smlc:
     command: docker run -d --label 'launched-by=smlc' --label 'scheduled-by=sm' alpine sh -c 'echo SWARM; sleep 36000'
-    environment:
-    - "DOCKER_HOST=tcp://swarm:3376"
     image: docker
     links:
-    - sm:swarm
+    - sm:docker
     network_mode: bridge
 
