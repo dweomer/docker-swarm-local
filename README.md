@@ -47,7 +47,7 @@ c4b0483f6aa1        docker:dind         "dockerd-entrypoint.s"   11 seconds ago 
 7b8b04f2020d        docker:dind         "dockerd-entrypoint.s"   11 seconds ago      Up 9 seconds               2375/tcp                dockerswarmlocal_sn2_1
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker info`
+### `DOCKER_HOST=tcp://localhost:3375 docker info`
 
 ```
 Containers: 4
@@ -105,7 +105,7 @@ Debug mode (server): false
 WARNING: No kernel memory limit support
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a`
 
 ```
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
@@ -115,14 +115,14 @@ d8fc21857f7d        alpine              "sh -c 'echo SWARM; s"   About a minute 
 b09d89c55cc5        alpine              "sh -c 'echo NODE2; s"   About a minute ago   Up About a minute                       node-2/sad_yonath
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a --filter 'label=scheduled-by=sm`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a --filter 'label=scheduled-by=sm`
 
 ```
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 d8fc21857f7d        alpine              "sh -c 'echo SWARM; s"   2 minutes ago       Up 2 minutes                            node-3/sharp_jang
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a --format 'name={{.Names}}, launched-by={{.Label "launched-by"}}, scheduled-by={{.Label "scheduled-by"}}'`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a --format 'name={{.Names}}, launched-by={{.Label "launched-by"}}, scheduled-by={{.Label "scheduled-by"}}'`
 
 ```
 name=node-1/agitated_bhaskara, launched-by=sn1lc, scheduled-by=sn1
@@ -138,7 +138,7 @@ Starting dockerswarmlocal_smlc_1 ... done
 Creating and starting dockerswarmlocal_smlc_2 ... done
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a`
 
 ```
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
@@ -150,7 +150,7 @@ d8fc21857f7d        alpine              "sh -c 'echo SWARM; s"   7 minutes ago  
 b09d89c55cc5        alpine              "sh -c 'echo NODE2; s"   7 minutes ago        Up 7 minutes                            node-2/sad_yonath
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a --filter 'label=scheduled-by=sm`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a --filter 'label=scheduled-by=sm`
 
 ```
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
@@ -159,7 +159,7 @@ a3aea02187c8        alpine              "sh -c 'echo SWARM; s"   About a minute 
 d8fc21857f7d        alpine              "sh -c 'echo SWARM; s"   6 minutes ago        Up 6 minutes                            node-3/sharp_jang
 ```
 
-### `DOCKER_HOST=tcp://localhost:2375 docker ps -a --format 'name={{.Names}}, launched-by={{.Label "launched-by"}}, scheduled-by={{.Label "scheduled-by"}}'`
+### `DOCKER_HOST=tcp://localhost:3375 docker ps -a --format 'name={{.Names}}, launched-by={{.Label "launched-by"}}, scheduled-by={{.Label "scheduled-by"}}'`
 
 ```
 name=node-2/clever_jepsen, launched-by=smlc, scheduled-by=sm
