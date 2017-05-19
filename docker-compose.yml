@@ -1,1 +1,87 @@
-docker-compose.v1.yml
+version: "3"
+
+# Thanks to @allingeek
+
+# GETTING STARTED:
+#   docker-compose up -d
+#   docker ps -a
+#   DOCKER_HOST=tcp://localhost:3375 docker info
+#   DOCKER_HOST=tcp://localhost:3375 docker ps -a
+#   docker-compose scale smlc=2
+#   DOCKER_HOST=tcp://localhost:3375 docker ps -a --filter 'label=scheduled-by=sm'
+
+# CLEANING UP:
+#   docker-compose down -v
+
+networks:
+  swarm:
+    driver: bridge
+
+volumes:
+  swarm:
+
+services:
+  leader:
+    container_name: swarm-manager-1
+    image: docker:17.05-dind
+    networks:
+      - swarm
+    ports:
+      - "2375:2375/tcp"
+    privileged: true
+    volumes:
+      - "/lib/modules:/lib/modules:ro"
+  init:
+    command: sh -e -c '(docker swarm init || true) && docker swarm join-token manager --quiet > /swarm/token'
+    container_name: swarm-manager-1-init
+    environment:
+      DOCKER_HOST: "tcp://docker:2375"
+    image: docker:17.05
+    links:
+      - leader:docker
+    networks:
+      - swarm
+    volumes:
+      - "swarm:/swarm"
+  follower1:
+    container_name: swarm-manager-2
+    image: docker:17.05-dind
+    networks:
+      - swarm
+    privileged: true
+    volumes:
+      - "/lib/modules:/lib/modules:ro"
+  follower1-join:
+    command: "sh -c 'sleep 10 && docker swarm join --token $$(cat /swarm/token) leader:2377 || true'"
+    container_name: swarm-manager-2-join
+    environment:
+      DOCKER_HOST: "tcp://swarm-manager-2:2375"
+    image: docker:17.05
+    links:
+      - leader:leader
+      # - follower1:docker
+    networks:
+      - swarm
+    volumes:
+      - "swarm:/swarm"
+  follower2:
+    container_name: swarm-manager-3
+    image: docker:17.05-dind
+    networks:
+      - swarm
+    privileged: true
+    volumes:
+      - "/lib/modules:/lib/modules:ro"
+  follower2-join:
+    command: "sh -c 'sleep 10 && docker swarm join --token $$(cat /swarm/token) leader:2377 || true'"
+    container_name: swarm-manager-3-join
+    environment:
+      DOCKER_HOST: "tcp://swarm-manager-3:2375"
+    image: docker:17.05
+    links:
+      - leader:leader
+      # - follower2:docker
+    networks:
+      - swarm
+    volumes:
+      - "swarm:/swarm"
