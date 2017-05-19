@@ -4,7 +4,7 @@
 
 ### UPDATE:
 This project has been updated to work with Docker Swarm v2 aka Swarm Mode as introduced in 1.12.
-Support for Swarm v1 has been relegated to the `legacy` branch.
+Support for Swarm v1 has been relegated to the [`legacy`](https://github.com/dweomer/docker-swarm-local/tree/legacy) branch.
 
 ##  Have Docker, Will Swarm
 Are you working on the Docker Engine COBOL client, aka the New Hotness &trade; and need a handy, throw-away Docker daemon/swarm to test against?
